@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script>
+    var libro1 = {
+      titulo: "Dublinés",
+      autor: "Alfonso Zapico",
+      precio: 18,
+      mostrar: function () { // Asi definimos una funcion anonima
+        console.log("Soy el libro: " + this.titulo);
+      }
+    }
+
+    var libro2 = {
+      titulo: "El arte de volar",
+      autor: "Antonio Altarriba y Kim",
+      precio: 20.90,
+      mostrar: function () {
+        console.log("Soy el libro: " + this.titulo);
+      }
+    }
+    libro1.mostrar()
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
