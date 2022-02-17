@@ -1,6 +1,6 @@
 var _paginaActual = Symbol();
-
-class Libro extends Producto {
+import Producto from "./productos";
+export default class Libro extends Producto {
 
 	constructor(titulo, autor, precio){
 		super(titulo, autor, precio);

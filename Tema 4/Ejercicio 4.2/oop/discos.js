@@ -1,4 +1,7 @@
-class Disco extends Producto {
+import Producto from "./productos";
+
+
+export default class Disco extends Producto {
 
 	constructor(titulo, autor, precio, formato){
 		super(titulo, autor, precio);
@@ -6,7 +9,7 @@ class Disco extends Producto {
 	}
 
 	formato() {
-		console.log("Formato del disco:" + formato)	
+		console.log("Formato del disco:" + formato)
 	}
 
 }

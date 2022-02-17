@@ -1,4 +1,4 @@
-class Producto {
+export default class Producto {
 
 	constructor(titulo, autor, precio){
 		this.titulo = titulo;
