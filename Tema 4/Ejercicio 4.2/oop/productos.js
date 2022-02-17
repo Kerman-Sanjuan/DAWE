@@ -1,4 +1,4 @@
-import Producto from "./productos.js";
+
 export default class Producto {
 
 	constructor(titulo, autor, precio){
