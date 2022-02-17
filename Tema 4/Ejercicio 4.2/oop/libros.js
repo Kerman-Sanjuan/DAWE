@@ -1,5 +1,5 @@
 var _paginaActual = Symbol();
-import Producto from "./productos";
+import Producto from "./productos.js";
 export default class Libro extends Producto {
 
 	constructor(titulo, autor, precio){

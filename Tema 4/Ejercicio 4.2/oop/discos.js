@@ -1,4 +1,4 @@
-import Producto from "./productos";
+import Producto from "./productos.js";
 
 
 export default class Disco extends Producto {
