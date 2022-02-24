@@ -8,8 +8,25 @@ function apiCall() {
     "&jscmd=details&format=json";
 
   fetch(url)
-    .then((response) => response.json())
-    .then((result) => retrieveData(result));
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Something went wrong");
+      }
+    })
+    .then((result) => {
+      if (Object.keys(result).length === 0) {
+        console.error("Algo ha ido mal con la api, la URL no se encuentra.");
+        alert("Algo ha ido mal con la api, la URL no se encuentra.")
+      } else {
+        retrieveData(result);
+      }
+    });
+}
+
+function printError(){
+
 }
 
 function retrieveData(result) {
@@ -35,7 +52,7 @@ function retrieveData(result) {
     authorsContainer.appendChild(authorDiv);
     i++;
   });
-  
+
   var img = new Image();
   img.src = result[document.getElementById("books").value][
     "thumbnail_url"
