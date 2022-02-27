@@ -54,6 +54,6 @@ function retrieveData(result) {
   var img = new Image();
   img.src = result[document.getElementById("books").value][
     "thumbnail_url"
-  ].replace("-S,jpg", "-L.jpg");
+  ].replace("-S.jpg", "-L.jpg");
   imgContainer.appendChild(img);
 }
