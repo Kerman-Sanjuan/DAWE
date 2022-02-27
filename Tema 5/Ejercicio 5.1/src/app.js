@@ -18,16 +18,14 @@ function apiCall() {
     .then((result) => {
       if (Object.keys(result).length === 0) {
         console.error("Algo ha ido mal con la api, la URL no se encuentra.");
-        alert("Algo ha ido mal con la api, la URL no se encuentra.")
+        alert("Algo ha ido mal con la api, la URL no se encuentra.");
       } else {
         retrieveData(result);
       }
     });
 }
 
-function printError(){
-
-}
+function printError() {}
 
 function retrieveData(result) {
   console.log(result);
