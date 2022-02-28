@@ -9,6 +9,7 @@ let offset = 0;
 loadLevel().
     then( level => {
             level.draw(context, 0);
+            console.log(level.tiles)
             // código del ejercicio 6 
         
         
