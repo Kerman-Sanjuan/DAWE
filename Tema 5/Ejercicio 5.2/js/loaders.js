@@ -26,20 +26,17 @@ function loadJSON(url) {
 
 function createTiles(level, backgrounds) {
   for (const i in backgrounds) {
-    //Objektu bat ateratzeko
-    var objektua = backgrounds[i];
-    var tile = objektua["tile"];
-    var zerLista = objektua["ranges"];
-    for (var j in zerLista) {
-      //Objektuak dituen zerrenda ateratzeko
-      var lista = zerLista[j];
-      var xPos = lista[0];
-      var yPos = lista[2];
-      var xMax = lista[1];
-      var yMax = lista[3];
-      for (var u = 0; u < xMax; u++) {
-        for (var w = 0; w < yMax; w++) {
-          level.tiles.set(u + xPos, w + yPos, tile);
+    var obj = backgrounds[i];
+    var tile = obj["tile"];
+    for (var range in obj["ranges"]) {
+      var lst = obj["ranges"][range];
+      var x_p = lst[0];
+      var xMax = lst[1];
+      var y_p = lst[2];
+      var yMax = lst[3];
+      for (var i_2 = 0; i_2 < xMax; i_2++) {
+        for (var j = 0; j < yMax; j++) {
+          level.tiles.set(x_p + i_2, y_p + j, tile);
         }
       }
     }
@@ -50,10 +47,7 @@ function createTiles(level, backgrounds) {
 function loadSpriteSheet() {
   return loadJSON("/sprites/sprites.json")
     .then((sheetSpec) =>
-      Promise.all([
-        sheetSpec,
-        loadImage(sheetSpec["imageURL"]), // cargar imágenes de un spritesheet como sprites
-      ])
+      Promise.all([sheetSpec, loadImage(sheetSpec["imageURL"])])
     )
     .then(([sheetSpec, image]) => {
       const sprites = new SpriteSheet(
@@ -61,7 +55,7 @@ function loadSpriteSheet() {
         sheetSpec["tileW"],
         sheetSpec["tileH"]
       );
-      for (var i = 0; i < 2; i++) {
+      for (var i = 0; i <= 1; i++) {
         sprites.defineTile(
           sheetSpec["tiles"][i]["name"],
           sheetSpec["tiles"][i]["index"][0],
@@ -69,22 +63,16 @@ function loadSpriteSheet() {
         );
       }
     });
-  return sprites;
 }
 export function loadLevel() {
-  return loadJSON("/levels/level.json") // qué tiles hay que poner y dónde dentro de este nivel
-    .then((levelSpec) =>
-      Promise.all([
-        levelSpec,
-        loadSpriteSheet(), // cargar imágenes de un spritesheet como sprites
-      ])
-    )
+  return loadJSON("/levels/level.json")
+    .then((levelSpec) => Promise.all([levelSpec, loadSpriteSheet()]))
     .then(([levelSpec, backgroundSprites]) => {
       const level = new Level();
-      createTiles(level, levelSpec.backgrounds); // desplegar tiles en la estrucura Matrix
+      createTiles(level, levelSpec.backgrounds);
 
-      const backgroundLayer = createBackgroundLayer(level, backgroundSprites); // cargar canvas
-      level.background = backgroundLayer; // canvas buffer
+      const backgroundLayer = createBackgroundLayer(level, backgroundSprites);
+      level.background = backgroundLayer;
       return level;
     });
 }
