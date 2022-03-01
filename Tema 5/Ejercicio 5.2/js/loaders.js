@@ -27,7 +27,6 @@ function loadJSON(url) {
 function createTiles(level, backgrounds) {
   for (const i in backgrounds) {
     var obj = backgrounds[i];
-    var tile = obj["tile"];
     for (var range in obj["ranges"]) {
       var lst = obj["ranges"][range];
       var x_p = lst[0];
@@ -36,7 +35,7 @@ function createTiles(level, backgrounds) {
       var yMax = lst[3];
       for (var i_2 = 0; i_2 < xMax; i_2++) {
         for (var j = 0; j < yMax; j++) {
-          level.tiles.set(x_p + i_2, y_p + j, tile);
+          level.tiles.set(x_p + i_2, y_p + j, obj["tile"]);
         }
       }
     }
