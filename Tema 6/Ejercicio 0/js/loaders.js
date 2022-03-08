@@ -4,7 +4,7 @@ import { createBackgroundLayer } from "./layers.js";
 
 export function loadImage(url) {
   return new Promise((resolve) => {
-    const image = new Image();
+    let image = new Image();
     image.addEventListener("load", () => {
       resolve(image);
     });
@@ -23,16 +23,16 @@ function loadJSON(url) {
 }
 
 function createTiles(level, backgrounds) {
-  for (const i in backgrounds) {
-    var obj = backgrounds[i];
-    for (var range in obj["ranges"]) {
-      var lst = obj["ranges"][range];
-      var x_p = lst[0];
-      var xMax = lst[1];
-      var y_p = lst[2];
-      var yMax = lst[3];
-      for (var i_2 = 0; i_2 < xMax; i_2++) {
-        for (var j = 0; j < yMax; j++) {
+  for (let i in backgrounds) {
+    let obj = backgrounds[i];
+    for (let range in obj["ranges"]) {
+      let lst = obj["ranges"][range];
+      let x_p = lst[0];
+      let xMax = lst[1];
+      let y_p = lst[2];
+      let yMax = lst[3];
+      for (let i_2 = 0; i_2 < xMax; i_2++) {
+        for (let j = 0; j < yMax; j++) {
           level.tiles.set(x_p + i_2, y_p + j, obj["tile"]);
         }
       }
@@ -42,13 +42,9 @@ function createTiles(level, backgrounds) {
 }
 
 function loadSpriteSheet() {
-  // Tengo que cambiar esta funcion.
   return loadJSON("/sprites/sprites.json")
     .then((sheetSpec) =>
-      Promise.all([
-        sheetSpec,
-        loadImage(sheetSpec["imageURL"]), // cargar imágenes de un spritesheet como sprites
-      ])
+      Promise.all([sheetSpec, loadImage(sheetSpec["imageURL"])])
     )
     .then(([sheetSpec, image]) => {
       const sprites = new SpriteSheet(
@@ -56,7 +52,8 @@ function loadSpriteSheet() {
         sheetSpec["tileW"],
         sheetSpec["tileH"]
       );
-      for (var i = 0; i < 2; i++) {
+      for (let i = 0; i < 2; i++) {
+  
         sprites.defineTile(
           sheetSpec["tiles"][i]["name"],
           sheetSpec["tiles"][i]["index"][0],

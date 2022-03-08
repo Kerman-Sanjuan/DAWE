@@ -5,7 +5,7 @@ export default class SpriteSheet {
         this.image = image;
         this.width = width;
         this.height = height;
-        this.tiles = new Map();
+        this.tiles = new Map(); 
     }
 
     define(name, x, y, width, height){
