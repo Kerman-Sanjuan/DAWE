@@ -11,9 +11,8 @@ loadLevel().then((level) => {
   document.addEventListener(
     "keydown",
     (event) => {
-      if (event.code == "ArrowRight") offset = offset + 15;
-      if (event.code == "ArrowLeft") offset = offset - 15;
-
+      if (event.code == "ArrowLeft") offset = offset + 10;
+      if (event.code == "ArrowRight") offset = offset - 10; // Se supone que un jugador se mueve a la derecha, el fondo se mueve a la izq.
       level.draw(context, offset);
     },
     false

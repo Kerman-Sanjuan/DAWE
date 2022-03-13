@@ -3,6 +3,7 @@ import SpriteSheet from "./SpriteSheet.js";
 import { createBackgroundLayer } from "./layers.js";
 
 export function loadImage(url) {
+	// https://stackoverflow.com/questions/52059596/loading-an-image-on-web-browser-using-promise
   return new Promise((resolve) => {
     const image = new Image();
     image.addEventListener("load", () => {
@@ -27,13 +28,9 @@ function createTiles(level, backgrounds) {
     let obj = backgrounds[i];
     for (let range in obj["ranges"]) {
       let lst = obj["ranges"][range];
-      let x_p = lst[0];
-      let xMax = lst[1];
-      let y_p = lst[2];
-      let yMax = lst[3];
-      for (let i_2 = 0; i_2 < xMax; i_2++) {
-        for (let j = 0; j < yMax; j++) {
-          level.tiles.set(x_p + i_2, y_p + j, obj["tile"]);
+      for (let i_2 = 0; i_2 < lst[1]; i_2++) {
+        for (let j = 0; j < lst[3]; j++) {
+          level.tiles.set(lst[0] + i_2, lst[2] + j, obj["tile"]);
         }
       }
     }
@@ -41,23 +38,21 @@ function createTiles(level, backgrounds) {
   console.log(level);
 }
 
+
 function loadSpriteSheet() {
   return loadJSON("/sprites/sprites.json")
     .then((sheetSpec) =>
       Promise.all([sheetSpec, loadImage(sheetSpec["imageURL"])])
     )
     .then(([sheetSpec, image]) => {
-      const sprites = new SpriteSheet(
-        image,
-        sheetSpec["tileW"],
-        sheetSpec["tileH"]
-      );
+            let tileWidth = sheetSpec["tileW"];
+            let tileHeight = sheetSpec["tileH"];
+            const sprites = new SpriteSheet(image,tileWidth,tileHeight);
       for (let i = 0; i < 2; i++) {
-        sprites.defineTile(
-          sheetSpec["tiles"][i]["name"],
-          sheetSpec["tiles"][i]["index"][0],
-          sheetSpec["tiles"][i]["index"][1]
-        );
+              let nombre = sheetSpec["tiles"][i]["name"];
+              let X = sheetSpec["tiles"][i]["index"][0];
+              let Y = sheetSpec["tiles"][i]["index"][1];
+        sprites.defineTile(nombre,X,Y);
       }
       return sprites;
     });
