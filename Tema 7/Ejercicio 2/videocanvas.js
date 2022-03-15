@@ -12,7 +12,14 @@ window.onload = function () {
 
     // Boton pausa
     var botonPause = document.getElementById("pausa");
-    botonPause.addEventListener("click", pausarVideo);
+    botonPause.addEventListener("click", () => {
+        var video = document.getElementById("video");
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    });
 
     // Boton scifi
     var botonCienciaFiccion = document.getElementById("scifi");
@@ -20,11 +27,15 @@ window.onload = function () {
 
     // Boton rotar
     var botonRotar = document.getElementById("rotar");
-    botonRotar.addEventListener("click", gestionarRotar);
+    botonRotar.addEventListener("click", () => {
+        setInterval(rotate, 100);
+    });
 
     // Boton audio
     var botonAudio = document.getElementById("audio");
-    botonAudio.addEventListener("click", manageAudio);
+    botonAudio.addEventListener("click", () => {
+        loadAudio("./audio/soundtrack.mp3").then((audio) => audio.play());
+    });
 
     // Boton pip
     var botonPip = document.getElementById("pip");
@@ -39,17 +50,6 @@ window.onload = function () {
 async function gestionarPip() {
     var video = document.getElementById("video");
     await video.requestPictureInPicture();
-}
-
-function pausarVideo() {
-    // https://stackoverflow.com/questions/64788516/how-to-pause-and-unpause-a-video
-
-    var video = document.getElementById("video");
-    if (video.paused) {
-        video.play();
-    } else {
-        video.pause();
-    }
 }
 
 function cambiarEfecto(e) {
@@ -72,9 +72,6 @@ function getFormatExtension() {
     } else if (video.canPlayType("video/webm") != "") {
         return ".webm";
     }
-}
-function gestionarRotar() {
-    setInterval(rotate, 100);
 }
 
 function rotate() {
@@ -161,9 +158,6 @@ function scifi(pos, r, g, b, data) {
 }
 
 // Carga de audio
-function manageAudio() {
-    loadAudio("./audio/soundtrack.mp3").then((audio) => audio.play());
-}
 function loadAudio(url) {
     // Similar al ejercicio previamente hecho.
     return new Promise((resolve) => {
