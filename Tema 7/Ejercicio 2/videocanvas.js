@@ -1,5 +1,3 @@
-const { range } = require("balanced-match");
-
 var efecto = null;
 var clip = "video/demovideo1"; // nombre del vídeo, sin extensión
 
@@ -43,11 +41,9 @@ async function gestionarPip() {
     await video.requestPictureInPicture();
 }
 
-function rotarVideo() {
-    var video = document.getElementById("video");
-}
-
 function pausarVideo() {
+    // https://stackoverflow.com/questions/64788516/how-to-pause-and-unpause-a-video
+
     var video = document.getElementById("video");
     if (video.paused) {
         video.play();
@@ -82,22 +78,17 @@ function gestionarRotar() {
 }
 
 function rotate() {
-
-    let display = document.getElementById("display");
-
     var bufferCanvas = document.getElementById("buffer");
     var context = bufferCanvas.getContext("2d");
-    // Clear the canvas
-    context.clearRect(0, 0, display.width, display.height);
 
     // Move registration point to the center of the canvas
-    context.translate(display.width / 2, display.height / 2);
+    context.translate(bufferCanvas.width / 2, bufferCanvas.height / 2);
 
     // Rotate 1 degree
     context.rotate(Math.PI / 180);
 
     // Move registration point back to the top left corner of canvas
-    context.translate(-display.width / 2, -display.height / 2);
+    context.translate(-bufferCanvas.width / 2, -bufferCanvas.height / 2);
     /* Esto es para la caja
     context.fillStyle = "red";
     context.fillRect(
