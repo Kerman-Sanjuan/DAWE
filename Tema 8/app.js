@@ -54,13 +54,15 @@ app.post("/pedido/add", (req, res) => {
             return error;
         }
         console.log(req.body);
-        var { error, feedback } = gestionarErroresFormulario(req.body);
-        if (error) {
+        var feedback = gestionarErroresFormulario(req.body);
+        if (!feedback["succes"]) {
             console.log("Succes: False, hay error en formulario");
             return res.json(feedback);
         } else {
             // No hay error en el formulario.
             console.log("Succes: True, el formulario es correcto");
+            req.body["succes"] = true;
+            console.log(req.body);
             return res.json(req.body);
         }
     });
@@ -89,11 +91,10 @@ function gestionarErroresFormulario(datos) {
         error = true;
     }
     errores["succes"] = !error;
-    return { error, errores };
+    return errores;
 }
 function validatePhoneNumber(number) {
-    var re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
-    return re.test(number);
+    return true; // Por razones de privacidad y por el caso de uso, no vamos a validarlo.
 }
 function validateEmail(email) {
     // https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript

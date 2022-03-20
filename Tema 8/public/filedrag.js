@@ -6,7 +6,7 @@ function $id(id) {
 // output information
 function output(msg) {
     var m = $id("messages");
-    m.innerHTML = msg + m.innerHTML;
+    m.innerHTML = msg;
 }
 
 // file drag hover
@@ -83,11 +83,38 @@ function enviar(submitform) {
         body: formData,
     })
         .then((response) => response.json())
-        .then((data) => console.log(data));
+        .then((data) => gestionarErrrores(data));
 }
 
-function mostrarResultados() {
-    console.log("hola");
+function gestionarErrrores(data) {
+    console.log("gestionando errores");
+    if (data["succes"] == true) mostrarResultados(data);
+    else {
+        output("");
+        var error = document.getElementById("emailCorrect");
+        error.innerHTML = "";
+        error.innerHTML =
+            '<p style="color:#FFA500">El correo insertado no es correcto</p>';
+    }
+}
+function mostrarResultados(data) {
+    var error = document.getElementById("emailCorrect");
+    error.innerHTML = "";
+    console.log("Mostrando resultados");
+    output("");
+    output(
+        "<ul> <li>Nombre de usuario: " +
+            data["nombre"] +
+            "</li> <li>Numero de telefono: " +
+            data["phone"] +
+            "</li> <li>Email: " +
+            data["mail"] +
+            "</li> <li>Libro: " +
+            data["libro"] +
+            "</li><li>Cantidad: " +
+            data["cantidad"] +
+            "</li><li>Imagenes:</li></ul>"
+    );
 }
 
 // initialize
