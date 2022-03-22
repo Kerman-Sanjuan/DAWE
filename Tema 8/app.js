@@ -16,6 +16,11 @@ app.use(bodyParser.json());
 
 var multer = require("multer");
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 const maxSize = 2 * 1024 * 1024; // 2MB
 
 var storage = multer.diskStorage({
