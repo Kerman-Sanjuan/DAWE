@@ -14,7 +14,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 var multer = require("multer");
-const whitelist = ["image/png", "image/jpeg", "image/jpg", "image/webp"]; // Para las imagenes https://stackoverflow.com/questions/60408575/how-to-validate-file-extension-with-multer-middleware
 
 const maxSize = 2 * 1024 * 1024; // 2MB
 
@@ -29,14 +28,16 @@ var storage = multer.diskStorage({
     },
     // tamaño máximo de los ficheros: 2MB
     limits: { fileSize: maxSize },
-    // sólo se admiten ficheros jpg o png
-    fileFilter: function fileFilter(req, file, cb) {
-        if (file.mimetype !== "image/png") {
-            return cb(new Error("Something went wrong"), false);
+    filename: function (req, file, cb) {
+        if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/)) {
+            req.fileValidationError = "Only image files are allowed!";
+            cb(new Error("Only image files are allowed!"), false);
+        } else {
+            return cb(null, file.originalname);
         }
-        cb(null, true);
     },
 });
+// filter function
 
 var upload = multer({ storage: storage });
 
@@ -45,25 +46,29 @@ var pedido = upload.array("fileselect");
 app.post("/pedido/add", (req, res) => {
     // Por lo que veo, tenemos que hacer un request a esta URL y imprimir el resultado en cliente.
     pedido(req, res, (err) => {
-        if (err) {
+        if (err instanceof multer.MulterError || err) {
             console.log("Ha habido un error");
             // en caso de error, devolver un objeto JSON
             let error = { sucess: false, error: err };
             // en caso de éxito, devolver un objeto JSON que contenga: success:true, la ruta a los ficheros
             // subidos y los valores recibidos en cada campo del formulario POST
-            return error;
-        }
-        console.log(req.body);
-        var feedback = gestionarErroresFormulario(req.body);
-        if (!feedback["succes"]) {
-            console.log("Succes: False, hay error en formulario");
-            return res.json(feedback);
+            return res.json(error);
         } else {
-            // No hay error en el formulario.
-            console.log("Succes: True, el formulario es correcto");
-            req.body["succes"] = true;
-            console.log(req.body);
-            return res.json(req.body);
+            console.log(req.files);
+            var feedback = gestionarErroresFormulario(req.body);
+            if (!feedback["succes"]) {
+                console.log("Succes: False, hay error en formulario");
+                return res.json(feedback);
+            } else {
+                req.body["succes"] = true;
+                images = [];
+                for (let i = 0; i < req.files.length; i++) {
+                    images[i] = req.files[i].path;
+                }
+                req.body["images"] = images;
+                console.log(req.body);
+                return res.json(req.body);
+            }
         }
     });
 });
@@ -96,6 +101,8 @@ function gestionarErroresFormulario(datos) {
 function validatePhoneNumber(number) {
     return true; // Por razones de privacidad y por el caso de uso, no vamos a validarlo.
 }
+
+function gestionarImagenes() {}
 function validateEmail(email) {
     // https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript
     var re = /\S+@\S+\.\S+/;

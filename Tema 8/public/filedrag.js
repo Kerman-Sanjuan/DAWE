@@ -6,7 +6,7 @@ function $id(id) {
 // output information
 function output(msg) {
     var m = $id("messages");
-    m.innerHTML = msg;
+    m.innerHTML = m.innerHTML+msg;
 }
 
 // file drag hover
@@ -27,7 +27,7 @@ function fileSelectHandler(e) {
     if (e.constructor.name != "DragEvent") {
         // process all File objects
         for (var i = 0, f; (f = files[i]); i++) {
-            parseFile(f);
+            //parseFile(f);
         }
     }
 
@@ -52,7 +52,7 @@ function parseFile(file) {
     );
 }
 
-function enviar(submitform) {
+function enviar() {
     // debes devolver una función que recoja los datos de submitform usando FormData y haga una
     // petición post (usando el Fetch API) con dichos datos a /pedido/add
     //  El resultado debes tratarlo como un objeto JSON y mostrarlo pantalla. En concreto la respuesta
@@ -74,6 +74,7 @@ function enviar(submitform) {
     formData.append("libro", datosPedido.book.value);
     formData.append("cantidad", datosPedido.cantidad.value);
     var formFiles = $id("upload").fileselect;
+
     for (let i = 0; i < formFiles.files.length; i++) {
         formData.append("fileselect", formFiles.files[i]);
     }
@@ -87,7 +88,7 @@ function enviar(submitform) {
 }
 
 function gestionarErrrores(data) {
-    console.log("gestionando errores");
+    console.log(data)
     if (data["succes"] == true) mostrarResultados(data);
     else {
         output("");
@@ -100,7 +101,8 @@ function gestionarErrrores(data) {
 function mostrarResultados(data) {
     var error = document.getElementById("emailCorrect");
     error.innerHTML = "";
-    console.log("Mostrando resultados");
+
+
     output("");
     output(
         "<ul> <li>Nombre de usuario: " +
@@ -115,6 +117,11 @@ function mostrarResultados(data) {
             data["cantidad"] +
             "</li><li>Imagenes:</li></ul>"
     );
+    for (let i = 0; i < data["images"].length; i++) {
+        let unparsed_link = data["images"][i]
+        let link = unparsed_link.split("public/")[1];
+        output("<img src=" + link + ">");
+    }
 }
 
 // initialize
