@@ -79,7 +79,7 @@ function enviar() {
         formData.append("fileselect", formFiles.files[i]);
     }
 
-    fetch("http://localhost:3000/pedido/add", {
+    fetch("/pedido/add", {
         method: "POST",
         body: formData,
     })
