@@ -27,7 +27,7 @@ function fileSelectHandler(e) {
     if (e.constructor.name != "DragEvent") {
         // process all File objects
         for (var i = 0, f; (f = files[i]); i++) {
-            //parseFile(f);
+            parseFile(f);
         }
     }
 
@@ -74,12 +74,13 @@ function enviar() {
     formData.append("libro", datosPedido.book.value);
     formData.append("cantidad", datosPedido.cantidad.value);
     var formFiles = $id("upload").fileselect;
-
+    console.log("La longitud de los ficheros es "+formFiles.files.length);
     for (let i = 0; i < formFiles.files.length; i++) {
+        console.log("Fichero",formFiles.files[i]);
         formData.append("fileselect", formFiles.files[i]);
     }
 
-    fetch("/pedido/add", {
+    fetch("http://localhost:3000/pedido/add", {
         method: "POST",
         body: formData,
     })
@@ -102,7 +103,7 @@ function mostrarResultados(data) {
     var error = document.getElementById("emailCorrect");
     error.innerHTML = "";
 
-
+    console.log("Mostrando resultados");
     output("");
     output(
         "<ul> <li>Nombre de usuario: " +
@@ -120,6 +121,7 @@ function mostrarResultados(data) {
     for (let i = 0; i < data["images"].length; i++) {
         let unparsed_link = data["images"][i]
         let link = unparsed_link.split("public/")[1];
+        console.log(link)
         output("<img src=" + link + ">");
     }
 }

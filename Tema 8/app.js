@@ -28,24 +28,26 @@ var storage = multer.diskStorage({
     },
     // tamaño máximo de los ficheros: 2MB
     limits: { fileSize: maxSize },
-    filename: function (req, file, cb) {
-        if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/)) {
-            req.fileValidationError = "Only image files are allowed!";
-            cb(new Error("Only image files are allowed!"), false);
-        } else {
+    filename: function(req, file, cb){
+        if(!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/)){
+            req.fileValidationError = 'Only image files are allowed!';
+            cb(new Error('Only image files are allowed!'), false);
+        }else{
             return cb(null, file.originalname);
         }
-    },
+    }
+
 });
 // filter function
 
-var upload = multer({ storage: storage });
+var upload = multer({storage: storage});
 
 var pedido = upload.array("fileselect");
 
 app.post("/pedido/add", (req, res) => {
     // Por lo que veo, tenemos que hacer un request a esta URL y imprimir el resultado en cliente.
     pedido(req, res, (err) => {
+        
         if (err instanceof multer.MulterError || err) {
             console.log("Ha habido un error");
             // en caso de error, devolver un objeto JSON
@@ -54,14 +56,17 @@ app.post("/pedido/add", (req, res) => {
             // subidos y los valores recibidos en cada campo del formulario POST
             return res.json(error);
         } else {
-            console.log(req.files);
+            console.log(req.files)
             var feedback = gestionarErroresFormulario(req.body);
             if (!feedback["succes"]) {
                 console.log("Succes: False, hay error en formulario");
                 return res.json(feedback);
             } else {
+                // No hay error en el formulario.
+            
                 req.body["succes"] = true;
-                images = [];
+                
+                images = []
                 for (let i = 0; i < req.files.length; i++) {
                     images[i] = req.files[i].path;
                 }
