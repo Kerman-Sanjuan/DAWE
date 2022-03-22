@@ -8,7 +8,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // View Engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
+const cors = require("cors")
+app.use(cors())
 // Middleware para el parseo de req.body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

@@ -89,7 +89,8 @@ function enviar() {
 }
 
 function gestionarErrrores(data) {
-    console.log(data)
+    console.log("gestionando errores");
+    console.log("los datos son"+data)
     if (data["succes"] == true) mostrarResultados(data);
     else {
         output("");
@@ -102,7 +103,7 @@ function gestionarErrrores(data) {
 function mostrarResultados(data) {
     var error = document.getElementById("emailCorrect");
     error.innerHTML = "";
-
+    console.log(data);
     console.log("Mostrando resultados");
     output("");
     output(
