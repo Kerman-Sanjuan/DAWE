@@ -34,7 +34,7 @@ var storage = multer.diskStorage({
     },
     // tamaño máximo de los ficheros: 2MB
     limits: { fileSize: maxSize },
-    filename: function(req, file, cb){
+    filename: function(req, file, cb){ //
         if(!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/)){
             req.fileValidationError = 'Only image files are allowed!';
             cb(new Error('Only image files are allowed!'), false);
