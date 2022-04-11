@@ -1,5 +1,10 @@
+/*
+El codigo es muy similar al del laboratorio 9, que hice de forma conjunta con Alvaro Hernandez.
+De todos modos, el original ha sido cambiado para que funcione con el nuevo formato.
+*/
+
 var id;
-// Este documento esta directamente extraido del laboratorio 9, el cual hice con Alvaro Hernandez Rad
+
 $(document).ready(function () {
     $(".deleteUser").on("click", deleteUser);
 });
@@ -15,7 +20,7 @@ function deleteUser() {
         $.ajax({
             type: "DELETE",
             url: "/users/delete/" + $(this).data("id"),
-        }).done(function (response) {
+        }).done(() => {
             window.location.replace("/");
         });
     } else {
@@ -57,7 +62,6 @@ function pulsarBoton() {
         document.getElementById("form").submit();
     } else {
         //Está en modo editar
-
         //Creamos un JSON con los datos nuevos
         var usuarioEditado = {
             first_name: document.getElementById("first_name").value,
@@ -75,7 +79,7 @@ function pulsarBoton() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(usuarioEditado),
-        }).then((response) => {
+        }).then(() => {
             window.location.replace("/");
         });
     }
