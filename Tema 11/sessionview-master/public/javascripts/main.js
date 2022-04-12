@@ -2,7 +2,6 @@
 El codigo es muy similar al del laboratorio 9, que hice de forma conjunta con Alvaro Hernandez.
 De todos modos, el original ha sido cambiado para que funcione con el nuevo formato.
 */
-
 var id;
 
 $(document).ready(function () {

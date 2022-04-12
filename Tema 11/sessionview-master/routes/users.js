@@ -1,6 +1,8 @@
 /*
 El codigo es muy similar al del laboratorio 9, que hice de forma conjunta con Alvaro Hernandez.
 De todos modos, el original ha sido cambiado para que funcione con el nuevo formato.
+
+ // App.js del ejercicio 9 (mas o menos)
 */
 
 var express = require("express");
@@ -11,6 +13,7 @@ var ObjectId = mongojs.ObjectId;
 var db = mongojs("clientesapp", ["users"]);
 var router = express.Router();
 
+// Middleware para el parseo del body
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
@@ -21,7 +24,7 @@ router.use((_req, res, next) => {
 
 router.use(
     expressValidator({
-        errorFormatter: function (param, msg, value) {
+        errorFormatter: (param, msg, value) => {
             var namespace = param.split("."),
                 root = namespace.shift,
                 formParam = root;
@@ -43,7 +46,7 @@ router.get("/", (req, res) => {
     if (req.session.emailVerified) {
         db.users.find((err, docs) => {
             if (err) {
-                console.log(err);
+                console.log("Error", err);
             } else {
                 console.log(docs);
                 res.render("users", {
@@ -54,7 +57,7 @@ router.get("/", (req, res) => {
             }
         });
     } else {
-        res.end("<h1>Please login first.</h1>");
+        res.end("<h1> Please login first</h1>");
     }
 });
 
@@ -79,31 +82,27 @@ router.post("/add", (req, res) => {
 
     db.users.insert(newUser, (err) => {
         if (err) {
-            console.log(err);
-        } else {
-            db.users.insert(newUser);
-        }
+            console.log("Error, no se ha podido validar el usuario", err);
+        } else db.users.insert(newUser);
+
         res.redirect("/users");
     });
 });
 
 router.delete("/delete/:id", (req, res) => {
     db.users.remove({ _id: ObjectId(req.params.id) }, (err) => {
-            if (err) {
-                console.log(err);
-            }
-            res.redirect(303, "/users");
-        });
+        if (err) console.log(err);
+
+        res.redirect(303, "/users");
+    });
 });
 
 router.get("/obtenerInfoUsuario/:id", (req, res) => {
     db.users.find({ _id: ObjectId(req.params.id) }, (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.json(result);
-            }
-        });
+        if (err) {
+            console.log(err);
+        } else res.json(result);
+    });
 });
 
 router.post("/actualizarInfoUsuario/:id", (req, res) => {
@@ -121,9 +120,7 @@ router.post("/actualizarInfoUsuario/:id", (req, res) => {
         (errors, result) => {
             if (errors) {
                 console.log(errors);
-            } else {
-                res.send(result);
-            }
+            } else res.send(result);
         }
     );
 });
