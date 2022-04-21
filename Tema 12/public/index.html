@@ -13,6 +13,9 @@
   <canvas id="lienzo" width="600" height="300">
     <script>
       iniciarJuego(document.getElementById('lienzo'), document.getElementById('count'));
+      window.addEventListener('offline', () => {
+        alert("Estas offline")
+      });
     </script>
 </body>
 
