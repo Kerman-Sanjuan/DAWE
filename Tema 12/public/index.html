@@ -9,12 +9,18 @@
 
 <body>
   <h1>Damas inglesas</h1>
+  <p id="red"></p>
   <p id="movimientos">Movimientos: <span id="count">0</span></p>
   <canvas id="lienzo" width="600" height="300">
     <script>
       iniciarJuego(document.getElementById('lienzo'), document.getElementById('count'));
       window.addEventListener('offline', () => {
-        alert("Estas offline")
+        document.getElementById('red').innerHTML = <h2></h2>;
+        document.getElementById('red').innerHTML = <h2>'Estas offline'</h2>;
+      });
+      window.addEventListener('online', () => {
+        document.getElementById('red').innerHTML = <h2></h2>;
+        document.getElementById('red').innerHTML = <h2>'Estas offline'</h2>;
       });
     </script>
 </body>
