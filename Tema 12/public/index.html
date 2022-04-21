@@ -15,12 +15,10 @@
     <script>
       iniciarJuego(document.getElementById('lienzo'), document.getElementById('count'));
       window.addEventListener('offline', () => {
-        document.getElementById('red').innerHTML = <h2></h2>;
-        document.getElementById('red').innerHTML = <h2>'Estas offline'</h2>;
+        document.getElementById('red').innerHTML = "<h2>Estas offline</h2>";
       });
       window.addEventListener('online', () => {
-        document.getElementById('red').innerHTML = <h2></h2>;
-        document.getElementById('red').innerHTML = <h2>'Estas offline'</h2>;
+        document.getElementById('red').innerHTML = "<h2>Estas online</h2>";
       });
     </script>
 </body>
