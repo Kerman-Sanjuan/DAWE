@@ -46,8 +46,15 @@ function gGameInProgress() {
 }
 
 function isTheGameOver() {
-  // Imagino que aqui tenemos que anadir codigo
-  return false;
+  // Se considera game over como que las piezas restantes son todas del mismo color 
+  // Si algo deja de funcionar es por que he roto esto
+  let color_principal = piezas[0].color;
+  for (let i = 0; 0 < piezas.length; i++) {
+    if (color_principal != piezas[i].color) {
+      return false
+    }
+  }
+  return true;
 }
 function endGame() {
   // Codigo hecho por mi
@@ -154,10 +161,47 @@ function Casilla(row, column, color) {
 }
 
 function isThereAPieceBetween(casilla1, casilla2) {
-
   // Esto hay que hacerlo
-  alert("Sin hacer...");
+  // Devolver si existe una pieza entre dos casillas.
+
+  // Primero, saber si existe un metodo para saber si hay una pieza en una casilla
+  let cord_x = Math.floor((casilla1.column + casilla2.column) / 2);
+  let cord_y = Math.floor((casilla1.row + casilla2.row) / 2);
+
+  // Le pasamos al metodo thereIsPiece la casilla con esas cordenadas
+  let casilla_objetivo = encontrarPieza(cord_x, cord_y);
+  //console.log(casilla_objetivo)
+  return thereIsPiece(casilla_objetivo);
+
 }
+
+function encontrarPieza(x, y) {
+  // Devuelve la pieza con esas coordenadas
+  //
+  console.log("Las cordenadas de la pieza a buscar son x:" + x + " y y:" + y);
+  for (let i = 0; i < piezas.length; i++) {
+    let pieza = piezas[i]
+    if (pieza.column == x && pieza.row == y) {
+      console.log(pieza)
+      return pieza;
+    }
+  }
+
+  return NaN;
+}
+
+
+
+function thereIsPiece(casilla) {
+  if (encontrarPieza(casilla.column, casilla.row) != NaN) {
+    console.log("Se ha encontrado una pieza")
+    return true
+  } else {
+    console.log("No se ha encontrado ninguna ficha")
+    return false
+  }
+}
+
 function clickOnEmptyCell(cell) {
   if (gSelectedPieceIndex == -1) { return; }
 
