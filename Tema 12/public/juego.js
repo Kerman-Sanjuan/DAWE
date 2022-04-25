@@ -50,7 +50,7 @@ function isTheGameOver() {
   // Si algo deja de funcionar es por que he roto esto
   let color_principal = piezas[0].color;
   for (let i = 0; 0 < piezas.length; i++) {
-    if (color_principal != piezas[i].color) {
+    if (color_principal !== piezas[i].color) {
       return false
     }
   }
@@ -181,7 +181,7 @@ function encontrarPieza(x, y) {
   console.log("Las cordenadas de la pieza a buscar son x:" + x + " y y:" + y);
   for (let i = 0; i < piezas.length; i++) {
     let pieza = piezas[i]
-    if (pieza.column == x && pieza.row == y) {
+    if (pieza.column === x && pieza.row === y) {
       console.log(pieza)
       return pieza;
     }
@@ -193,7 +193,7 @@ function encontrarPieza(x, y) {
 
 
 function thereIsPiece(casilla) {
-  if (encontrarPieza(casilla.column, casilla.row) != NaN) {
+  if (!isNaN(encontrarPieza(casilla.column, casilla.row))) {
     console.log("Se ha encontrado una pieza")
     return true
   } else {
@@ -245,7 +245,7 @@ function gestorClick(e) {
   var casilla = getCursorPosition(e);
   for (var i = 0; i < gNumPieces; i++) {
     if ((piezas[i].row == casilla.row) &&
-      (piezas[i].column == casilla.column)) {
+      (piezas[i].column === casilla.column)) {
       clickOnPiece(i);
       return;
     }
