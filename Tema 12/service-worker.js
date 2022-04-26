@@ -1,3 +1,4 @@
+// Codigo descargado de e-gela y copiados los metodos.
 'use strict';
 
 var cacheVersion = 1;
